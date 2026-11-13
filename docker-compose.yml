@@ -1,22 +1,15 @@
 services:
   kick-level-farm:
-    image: ghcr.io/jakeayy/kick-level-farm:latest
-    # Or build from source instead of pulling:
-    # build: .
-    container_name: kick-level-farm
-    restart: unless-stopped
-    volumes:
-      - ./data:/data            # config.toml, .kick_token, analytics.jsonl
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
-      TZ: Europe/Warsaw         # timestamps in the logs
-      PUID: 1000                # owner of ./data on the host
-      PGID: 1000
-      # Alternatives to the files in ./data:
-      # KICK_TOKEN: <your session_token cookie>
-      # KICK_DISCORD_WEBHOOK: https://discord.com/api/webhooks/...
-    stop_grace_period: 30s      # time for the session summary / Discord "stopped" message
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: "3"
+      - KICK_TOKEN=${KICK_TOKEN}
+    volumes:
+      - bot-data:/data
+    ports:
+      - "7860:7860"
+    restart: unless-stopped
+
+volumes:
+  bot-data:

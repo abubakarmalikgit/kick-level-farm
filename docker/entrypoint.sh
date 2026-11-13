@@ -1,4 +1,5 @@
 #!/bin/sh
+python3 -m http.server "${PORT:-7860}" --bind 0.0.0.0 >/dev/null 2>&1 &
 # Runs as root only long enough to fix /data ownership, then drops to PUID:PGID.
 set -eu
 

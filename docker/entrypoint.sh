@@ -1,6 +1,5 @@
 #!/bin/sh
-(while true; do printf 'HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\nOK' | nc -l -p "${PORT:-7860}" -q 1; done) &
-# Runs as root only long enough to fix /data ownership, then drops to PUID:PGID.
+(while true; do printf 'HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\nOK' | nc -l -p "${PORT:-7860}" >/dev/null 2>&1; done) &# Runs as root only long enough to fix /data ownership, then drops to PUID:PGID.
 set -eu
 
 PUID="${PUID:-1000}"
